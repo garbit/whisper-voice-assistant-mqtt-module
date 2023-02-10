@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "whisper-voice-assistant-mqtt-module"
+version = "0.1.0"
+description = ""
+authors = ["Andrew Garbett <atgarbett@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "whisper_voice_assistant_mqtt_module"}]
+
+[tool.poetry.dependencies]
+python = "3.10.9"
+paho-mqtt = "1.6.1"
+pyaudio = "^0.2.13"
+openai-whisper = "^20230117"
+numpy = "^1.24.1"
+pvporcupine = "^2.1.4"
+pvrecorder = "^1.1.1"
+scipy = "^1.10.0"
+torchaudio = "^0.13.1"
+pvcobra = "^1.2.0"
+python-dotenv = "^0.21.1"
+torch = [{markers = "sys_platform == 'macos'", url = "https://download.pytorch.org/whl/cpu/torch-1.13.1-cp310-none-macosx_11_0_arm64.whl"},
+{markers = "sys_platform == 'linux'", url="https://download.pytorch.org/whl/torch-1.13.1-cp310-cp310-manylinux2014_aarch64.whl"}]
+
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
