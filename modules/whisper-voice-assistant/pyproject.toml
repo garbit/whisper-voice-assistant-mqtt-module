@@ -5,6 +5,8 @@ description = ""
 authors = ["Andrew Garbett <atgarbett@gmail.com>"]
 license = "MIT"
 readme = "README.md"
+# can this be removed? not sure why poetry adds it by default not
+# probs useful if building a python package (for pypi) vs module
 packages = [{include = "whisper_voice_assistant_mqtt_module"}]
 
 [tool.poetry.dependencies]
@@ -14,14 +16,15 @@ openai-whisper = "^20230117"
 numpy = "^1.24.1"
 pvporcupine = "^2.1.4"
 pvrecorder = "^1.1.1"
-scipy = "^1.10.0"
-torchaudio = "^0.13.1"
 pvcobra = "^1.2.0"
 python-dotenv = "^0.21.1"
+# is this needed?
+scipy = "^1.10.0"
+# is this needed?
+torchaudio = "^0.13.1"
+# do you need to install torch? openai-whisper should install it as a sub-dep
 torch = [{markers = "sys_platform == 'macos'", url = "https://download.pytorch.org/whl/cpu/torch-1.13.1-cp310-none-macosx_11_0_arm64.whl"},
 {markers = "sys_platform == 'linux'", url="https://download.pytorch.org/whl/torch-1.13.1-cp310-cp310-manylinux2014_aarch64.whl"}]
-
-
 
 [build-system]
 requires = ["poetry-core"]

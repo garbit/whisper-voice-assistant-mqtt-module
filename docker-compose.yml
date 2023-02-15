@@ -1,0 +1,38 @@
+networks:
+  mqttnet:
+    name: mqttnet
+    external: true
+
+services:
+  mqtt:
+    container_name: mqtt
+    image: eclipse-mosquitto:2.0.15
+    restart: unless-stopped
+    networks:
+      - mqttnet
+    ports:
+      - 1883:1883
+      - 9001:9001
+    volumes:
+      - ./conf/mqtt:/mosquitto/config
+
+  whisper-voice-assistant:
+    container_name: whisper-voice-assistant
+    image: whisper-voice-assistant:latest
+    restart: always
+    networks:
+      - mqttnet
+    environment:
+      MQTT_ENDPOINT: "mqtt"
+    depends_on:
+      - mqtt
+
+  subscriber:
+    container_name: subscriber
+    image: subscriber:latest
+    networks:
+      - mqttnet
+    environment:
+      MQTT_ENDPOINT: "mqtt"
+    depends_on:
+      - mqtt

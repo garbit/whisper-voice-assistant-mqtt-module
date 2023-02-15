@@ -175,10 +175,10 @@ The project uses a broker docker container `mqtt` that manages the subscribers a
 
 There are three containers:
 1. `mqtt` - The message broker to route messages between scripts.
-2. `modules/publisher/publisher.py` - Publishes Event objects on the `new_event` topic.
+2. `modules/whisper-voice-assistant/main.py` - Publishes SpeechEvent objects on the `new_event` topic.
 3. `modules/subscriber/subscriber.py` - Subscribes to the `new_event` topic.
 
-<img src="event-log.png" />
+<img src="docs/images/event-log.png" />
 
 # Install
 This project uses [poetry](https://python-poetry.org/). Create a new environment using:
@@ -192,7 +192,7 @@ poetry install
 There are three components in this system:
 
 1. MQTT broker docker container that facilitates message exchange between scripts using mqtt publish and subscribe
-2. `modules/publisher/publisher.py` that publishes the current timestamp every second to the `new_event` topic over MQTT.
+2. `modules/whisper-voice-assistant/main.py` that publishes speech detection events to the `new_event` topic over MQTT.
 3. `modules/subscriber/subscriber.py` that subscribes to the `new_event` topic and prints the message that has been received.
 
 You can either run them all together using the convenient `run.sh` that builds each `Dockerfile` in the modules directory and then runs `docker-compose up -d [container name]`
@@ -204,7 +204,7 @@ You can run the entire stack using a single `run.sh` by simply running `run.sh` 
 
 Running `run.sh` will create three containers:
 1. `mqtt`
-2. `publisher`
+2. `whisper-voice-assistant`
 3. `subscriber`
 
 You can see the containers running using:
@@ -213,7 +213,7 @@ You can see the containers running using:
 docker ps
 ```
 Example:
-<img src="example-docker-ps.png" />
+<img src="docs/images/example-docker-ps.png" />
 
 
 ## Individual containers or as scripts
@@ -226,14 +226,14 @@ Run the `docker-compose` file to start the mqtt broker using:
 docker-compose up -d
 ```
 
-This will start a broker service so that the `publisher.py` and `subscriber.py` can publish and subscribe to the `mqtt` service.
+This will start a broker service so that the `whisper-voice-assistant/main.py` and `subscriber/subscriber.py` can publish and subscribe to the `mqtt` service.
 
-There are two modules `publisher.py` and `subscriber.py`.
+There are two modules `whisper-voice-assistant/main.py` and `subscriber.py`.
 
-`publisher.py` publishes on the topic `new_event` and sends a pickled dictionary in the format of:
+`whisper-voice-assistant/main.py` publishes on the topic `new_event` and sends a pickled dictionary in the format of:
 
 ```
-{"test": 1675943452.2049432}
+{"test": 1675943452.2049432, "query": "This is something I said"}
 ```
 
 `subscriber.py` subscribes to `new_event` and prints out the published event.
@@ -253,7 +253,7 @@ python subscriber.py
 ```
 
 You should now see two terminals like this:
-<img src="event-log.png" />
+<img src="docs/images/event-log.png" />
 
 ## Event Data structures - best practice
 To standardize how data is passed around the MQTT modules it's helpful to use a [Python dataclass](https://docs.python.org/3/library/dataclasses.html) that defines your data structure. This can help with clarifying the shape and properties of the objects you publish and subscribe to in the system.
